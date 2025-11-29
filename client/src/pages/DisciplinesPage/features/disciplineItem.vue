@@ -19,7 +19,7 @@
       </div>
       
       <div class="flex justify-end">
-        <iconButton class="btn-main">
+        <iconButton class="btn-main" @click="$router.push({name: 'DisciplineDetailsPage', params: {id: discipline.id}})">
           <template #text>
             <p>Перейти</p>
           </template>

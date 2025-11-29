@@ -75,7 +75,7 @@
                 hover:file:bg-gray-200"
             />
             <div v-if="previewImage" class="mt-2 w-full h-32 bg-gray-100 rounded overflow-hidden">
-               <img :src="previewImage" class="w-full h-full object-cover" />
+              <img :src="previewImage" class="w-full h-full object-cover" />
             </div>
           </div>
 

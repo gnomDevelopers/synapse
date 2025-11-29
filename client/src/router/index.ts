@@ -37,6 +37,12 @@ const router = createRouter({
           meta: { requiresAuth: true },
           component: () => import("@/pages/DisciplinesPage/DisciplinesPage.vue"),
         },
+        {
+          name: "DisciplineDetailsPage",
+          path: "discipline/:id",
+          meta: { requiresAuth: true },
+          component: () => import("@/pages/DisciplineDetailsPage/DisciplineDetailsPage.vue"),
+        },
       ]
     },
   ],
