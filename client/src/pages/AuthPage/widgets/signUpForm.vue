@@ -49,7 +49,7 @@ import { ValidUserEmail, ValidUserPassword, ValidUserFIO } from '@/utils/validat
 import { type IValidator } from '@/utils/constants';
 import { useStatusWindowAPI } from '@/widgets/StatusWindow/statusWindowAPI';
 
-import loginInput from '@/pages/AuthPage/features/loginInput.vue';
+import loginInput from '@/pages/AuthPage/features/authInput.vue';
 import { SET_COOKIE } from '@/utils/functions';
 
 export default {
@@ -121,16 +121,16 @@ export default {
       }
 
       if(this.fioValid.value === ''){
-        this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите ФИО!'});
+        return this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите ФИО!'});
       }
       if(this.emailValid.value === ''){
-        this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите email!'});
+        return this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите email!'});
       }
       if(this.passwordValid.value === ''){
-        this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите пароль!'});
+        return this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Введите пароль!'});
       }
       if(this.passwordValid.value !== this.passwordRepeatValid.value){
-        this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Пароли не совпадают!'});
+        return this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Пароли не совпадают!'});
       }
     }
   }

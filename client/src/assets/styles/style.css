@@ -1,7 +1,89 @@
 @theme {
   --color-clr0: oklch(0.999 0 0);
   --color-clr1: oklch(0.975 0 0);
-  --color-clr2: oklch(0.955 0 0);
+  --color-clr2: oklch(0.945 0 0);
+  --color-main: oklch(0.2215 0.1397 269.89);
+  --color-btn-main: oklch(0.8444 0.0406 296.57);
+  --color-btn-main-hover: oklch(0.8444 0.0906 296.57);
+  --color-btn-main-active: oklch(0.8244 0.0606 296.57);
+  --color-btn-main-text: oklch(0.2215 0.1397 269.89);
+  --color-border: oklch(0.885 0 0);
 }
-@layer base {}
+@layer base {
+  input {
+    outline: none;
+  }
+  .btn {
+    padding: 8px 16px;
+    font-size: 20px;
+    border-radius: 10px;
+    color: var(--text-color-btn);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: background-color 0.15s ease-in;
+  }
+  .btn-main {
+    background-color: var(--color-btn-main);
+  }
+  .btn-main:hover {
+    background-color: var(--color-btn-main-hover);
+  }
+  .btn-main:active {
+    background-color: var(--color-btn-main-active);
+  }
+  .btn-main-light {
+    padding: 6px 18px;
+    border-radius: 6px;
+  }
+  .btn-logout {
+    padding: 4px 4px;
+    border: 2px solid var(--btn-color-logout-border);
+    border-radius: 6px;
+    color: var(--text-color);
+  }
+  .btn-logout:hover {
+    background-color: var(--btn-color-logout-hover);
+  }
+  .btn-logout:active {
+    background-color: var(--btn-color-logout-active);
+  }
+  .btn-file {
+    fill: var(--text-color-btn);
+    background-color: var(--btn-color-file);
+  }
+  .btn-file:hover {
+    background-color: var(--btn-color-file-hover);
+  }
+  .btn-file:active {
+    background-color: var(--btn-color-file-active);
+  }
+  .btn-light {
+    padding: 4px 16px;
+    font-size: 20px;
+    border-radius: 6px;
+    color: var(--text-color);
+    background-color: transparent;
+  }
+  .btn-light-good {
+    border: 2px solid var(--btn-color-main);
+  }
+  .btn-light-good:hover {
+    background-color: rgba(34, 112, 0, 0.2588235294);
+  }
+  .btn-light-good:active {
+    background-color: rgba(24, 80, 0, 0.2588235294);
+  }
+  .btn-light-bad {
+    border: 2px solid var(--btn-color-bad);
+  }
+  .btn-light-bad:hover {
+    background-color: rgba(207, 46, 46, 0.2588235294);
+  }
+  .btn-light-bad:active {
+    background-color: rgba(143, 22, 22, 0.2588235294);
+  }
+}
 @layer components {}/*# sourceMappingURL=style.css.map */
