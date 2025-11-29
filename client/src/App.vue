@@ -1,9 +1,14 @@
 <template>
-  <h1>Synapse</h1>
+  <StatusWindow />
+  <RouterView></RouterView>
 </template>
 
 <script lang="ts">
-export default {
+import StatusWindow from './widgets/StatusWindow/components/statusWindow.vue';
 
-}
+export default{
+  components: {
+    StatusWindow
+  },
+};
 </script>

@@ -1,3 +1,7 @@
-@theme {}
+@theme {
+  --color-clr0: oklch(0.999 0 0);
+  --color-clr1: oklch(0.975 0 0);
+  --color-clr2: oklch(0.955 0 0);
+}
 @layer base {}
 @layer components {}/*# sourceMappingURL=style.css.map */
