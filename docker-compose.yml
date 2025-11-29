@@ -11,6 +11,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./.data/server.log:/app/app.log
+    env_file: ./.env
     restart: on-failure
     ports:
       - "127.0.0.1:10801:8080"
