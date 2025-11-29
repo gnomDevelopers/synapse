@@ -43,6 +43,12 @@ const router = createRouter({
           meta: { requiresAuth: true },
           component: () => import("@/pages/DisciplineDetailsPage/DisciplineDetailsPage.vue"),
         },
+        {
+          name: "TestConstructorPage",
+          path: "test/create",
+          meta: { requiresAuth: true },
+          component: () => import("@/pages/TestConstructorPage/TestConstructorPage.vue"),
+        },
       ]
     },
   ],
