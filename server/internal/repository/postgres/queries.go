@@ -18,11 +18,12 @@ CREATE TABLE IF NOT EXISTS disciplines (
 
 	createTableAssignments = `
 CREATE TABLE IF NOT EXISTS assignments (
-id SERIAL PRIMARY KEY,
-name VARCHAR NOT NULL,
-deadline VARCHAR NOT NULL,
-description TEXT NOT NULL,
-files TEXT[]
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    deadline VARCHAR NOT NULL,
+    description TEXT NOT NULL,
+    files TEXT[],
+    discipline_id INT REFERENCES disciplines(id) ON DELETE CASCADE
 );`
 
 	createTableSolutions = `

@@ -39,6 +39,7 @@ func NewDatabase(envConf *config.Config) (*DB, error) {
 }
 
 func CreateTable(db *sqlx.DB) {
+	db.MustExec(createTableTeachers)
 	db.MustExec(createTableDisciplines)
 	db.MustExec(createTableAssignments)
 	db.MustExec(createTableSolutions)
