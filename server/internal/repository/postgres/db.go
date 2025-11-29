@@ -33,26 +33,11 @@ func NewDatabase(envConf *config.Config) (*DB, error) {
 		log.Fatalf("Error pinging database connection: %v", err)
 	}
 
-	CreateTable(db)
+	//CreateTable(db)
 
 	return &DB{db}, nil
 }
 
-func CreateTable(db *sqlx.DB) {
-	//db.MustExec(createTableUsers)
-	//db.MustExec(createTableUniversities)
-	//db.MustExec(createTablePrograms)
-	//db.MustExec(createTableUsersUniversities)
-	//db.MustExec(createTableUsersPrograms)
-	//db.MustExec(createTableDisciplines)
-	//db.MustExec(createTableApplications)
-	//db.MustExec(createTableApplicationDocuments)
-	//db.MustExec(createTableReviews)
-	//db.MustExec(createTableQuestions)
-	//db.MustExec(createTableAnswers)
-	//db.MustExec(createTableQuota)
-	//db.MustExec(createTableTelegramMessageTemplates)
-	//db.MustExec(createTableTestTasks)
-	//db.MustExec(createTableTestTasksSolutions)
-	//db.MustExec(createTableForms)
-}
+//func CreateTable(db *sqlx.DB) {
+//	db.MustExec(createTableUsers)
+//}
