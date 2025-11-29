@@ -12,13 +12,13 @@ const router = createRouter({
       children: [
         {
           name: "AuthPageLogin",
-          path: "/login",
+          path: "login",
           meta: { requiresAuth: false },
           component: () => import("@/pages/AuthPage/widgets/loginForm.vue"),
         },
         {
           name: "AuthPageSignUp",
-          path: "/signup",
+          path: "signup",
           meta: { requiresAuth: false },
           component: () => import("@/pages/AuthPage/widgets/signUpForm.vue"),
         },
@@ -28,8 +28,17 @@ const router = createRouter({
       name: "MainPage",
       path: "/",
       meta: { requiresAuth: true },
+      redirect: { name: 'DisciplinesPage' },
       component: () => import("@/pages/MainPage/MainPage.vue"),
-    }
+      children: [
+        {
+          name: "DisciplinesPage",
+          path: "disciplines",
+          meta: { requiresAuth: true },
+          component: () => import("@/pages/DisciplinesPage/DisciplinesPage.vue"),
+        },
+      ]
+    },
   ],
 })
 

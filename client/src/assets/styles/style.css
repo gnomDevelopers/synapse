@@ -2,21 +2,24 @@
   --color-clr0: oklch(0.999 0 0);
   --color-clr1: oklch(0.975 0 0);
   --color-clr2: oklch(0.945 0 0);
+  --color-clr10: oklch(0.9159 0.0178 296.61);
   --color-main: oklch(0.2215 0.1397 269.89);
   --color-btn-main: oklch(0.8444 0.0406 296.57);
   --color-btn-main-hover: oklch(0.8444 0.0906 296.57);
   --color-btn-main-active: oklch(0.8244 0.0606 296.57);
   --color-btn-main-text: oklch(0.2215 0.1397 269.89);
   --color-border: oklch(0.885 0 0);
+  --color-blur: oklch(0.6086 0.0592 295.17);
 }
 @layer base {
   input {
     outline: none;
   }
   .btn {
-    padding: 8px 16px;
-    font-size: 20px;
-    border-radius: 10px;
+    padding: 6px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
     color: var(--text-color-btn);
     cursor: pointer;
     user-select: none;

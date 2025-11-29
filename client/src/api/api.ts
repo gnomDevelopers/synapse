@@ -1,7 +1,7 @@
 import {
   type IAuthRequest, 
   type IAuthResponse, 
-  type IUser, 
+  type IUserResponse, 
   login, 
   logout, 
   refresh, 
@@ -12,5 +12,5 @@ import {
 // --- Экспорт DTO и методов ---
 
 // Экспортируем все импортированные функции и интерфейсы из auth.ts
-export type { IAuthRequest, IAuthResponse, IUser };
+export type { IAuthRequest, IAuthResponse, IUserResponse };
 export { login, logout, refresh, register, getUser };

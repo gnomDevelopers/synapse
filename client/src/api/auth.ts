@@ -6,11 +6,9 @@ import { $api } from './init';
 /**
  * Интерфейс пользователя (для ответа и для получения данных)
  */
-export interface IUser {
+export interface IUserResponse {
   id: number;
-  first_name: string;
-  last_name: string;
-  third_name?: string; // Отчество может быть необязательным
+  fio: string;
   email: string;
 }
 
@@ -18,9 +16,7 @@ export interface IUser {
  * Интерфейс тела запроса для регистрации/логина
  */
 export interface IAuthRequest {
-  first_name?: string;
-  last_name?: string;
-  third_name?: string;
+  fio?:string;
   email: string;
   password: string;
 }
@@ -29,7 +25,7 @@ export interface IAuthRequest {
  * Интерфейс ответа при успешной авторизации/обновлении
  */
 export interface IAuthResponse {
-  user: IUser;
+  user: IUserResponse;
   accessToken: string;
 }
 
@@ -54,8 +50,8 @@ export const login = (data: Pick<IAuthRequest, 'email' | 'password'>): Promise<A
 /**
  * GET /user - Получение данных текущего пользователя (требует Access Token)
  */
-export const getUser = (): Promise<AxiosResponse<IUser>> => {
-  return $api.get<IUser>('/auth/user');
+export const getUser = (): Promise<AxiosResponse<IUserResponse>> => {
+  return $api.get<IUserResponse>('/auth/user');
 };
 
 /**
