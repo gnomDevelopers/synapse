@@ -36,5 +36,15 @@ func (h *Handler) Router() *fiber.App {
 		return c.Status(fiber.StatusOK).SendString("healthy")
 	})
 
+	authGroup := f.Group("/auth")
+	authGroup.Use(func(c *fiber.Ctx) error {
+		return h.WithJWTAuth(c)
+	})
+
+	authGroup.Post("/discipline", h.CreateDiscipline)
+	authGroup.Get("/discipline", h.GetDisciplinesByTeacher)
+	authGroup.Put("/discipline", h.UpdateDiscipline)
+	authGroup.Delete("/discipline", h.DeleteDiscipline)
+
 	return f
 }
