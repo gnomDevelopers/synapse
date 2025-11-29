@@ -1,10 +1,19 @@
 package postgres
 
 const (
+	createTableTeachers = `
+CREATE TABLE IF NOT EXISTS teachers (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    password VARCHAR NOT NULL
+);`
+
 	createTableDisciplines = `
 CREATE TABLE IF NOT EXISTS disciplines (
-id SERIAL PRIMARY KEY,
-name VARCHAR NOT NULL
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    teacher_id INT REFERENCES teachers(id) ON DELETE CASCADE
 );`
 
 	createTableAssignments = `
