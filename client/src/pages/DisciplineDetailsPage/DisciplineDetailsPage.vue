@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-clr1 p-6">
+  <div class="h-full bg-clr1 p-6" :class="{'overflow-hidden': isMaterialModalOpen || isTestResultModalOpen}">
 
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-4xl mx-auto" :inert="isMaterialModalOpen || isTestResultModalOpen">
       <div class="flex flex-col sm:flex-row gap-4 mb-8">
         <iconButton class="btn-light gap-2" @click="$router.push({name: 'DisciplinesPage'})">
           <template #icon>
@@ -20,6 +20,15 @@
           </template>
           <template #text>
             <p>Добавить учебный материал</p>
+          </template>
+        </iconButton>
+
+        <iconButton class="btn-main gap-2" @click="openAssigmentModal">
+          <template #icon>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          </template>
+          <template #text>
+            <p>Добавить задание</p>
           </template>
         </iconButton>
 
@@ -60,7 +69,24 @@
   
         <ul class="space-y-3">
           <li v-for="material in materials" :key="material.id">
-            <materialItem :id="material.id" :title="material.title" :created-at="material.createdAt"/>
+            <materialItem :id="material.id" :title="material.title" :created-at="formatDate(material.createdAt)"/>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 cursor-default select-none">
+          <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 30 37" xmlns="http://www.w3.org/2000/svg"><path d="M21.5 4.83333H24.8333C25.7174 4.83333 26.5652 5.18452 27.1904 5.80964C27.8155 6.43477 28.1667 7.28261 28.1667 8.16667V31.5C28.1667 32.3841 27.8155 33.2319 27.1904 33.857C26.5652 34.4821 25.7174 34.8333 24.8333 34.8333H4.83333C3.94928 34.8333 3.10143 34.4821 2.47631 33.857C1.85119 33.2319 1.5 32.3841 1.5 31.5V8.16667C1.5 7.28261 1.85119 6.43477 2.47631 5.80964C3.10143 5.18452 3.94928 4.83333 4.83333 4.83333H8.16667M9.83333 1.5H19.8333C20.7538 1.5 21.5 2.24619 21.5 3.16667V6.5C21.5 7.42047 20.7538 8.16667 19.8333 8.16667H9.83333C8.91286 8.16667 8.16667 7.42047 8.16667 6.5V3.16667C8.16667 2.24619 8.91286 1.5 9.83333 1.5Z" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Задания
+        </h2>
+  
+        <div v-if="assignments.length === 0" class="text-gray-400 italic cursor-default select-none">
+          Задания пока не добавлены
+        </div>
+  
+        <ul class="space-y-3">
+          <li v-for="assignment in assignments" :key="assignment.id">
+            <assigmentItem :id="assignment.id" :title="assignment.title" :created-at="formatDate(assignment.createdAt)" @show-results=""/>
           </li>
         </ul>
       </section>
@@ -77,72 +103,38 @@
   
         <ul class="space-y-3">
           <li v-for="test in tests" :key="test.id">
-            <testItem :id="test.id" :title="test.title" :deadline="test.deadline" :passing-score="test.passingScore" :max-score="test.maxScore"/>
+            <testItem 
+              :id="test.id" 
+              :title="test.title" 
+              :deadline="formatDate(test.deadline)" 
+              :passing-score="test.passingScore" 
+              :max-score="test.maxScore" 
+              @show-results="openTestResultModal(test.id)"
+            />
           </li>
         </ul>
       </section>
     </div>
   
+    <addMaterialMW v-if="isMaterialModalOpen" @close="closeMaterialModal" @append="(newMaterial: any) => materials.push(newMaterial)"/>
 
-    <div v-if="isMaterialModalOpen" class="fixed inset-0 z-50 flex items-center justify-center">
-      <div 
-        class="absolute inset-0 bg-blur/20 bg-opacity-40 backdrop-blur-xs transition-opacity"
-        @click="closeMaterialModal"
-      ></div>
+    <addAssigmentMW v-if="isAssigmentModalOpen" @close="closeAssigmentModal" @append="(newAssigment: any) => assignments.push(newAssigment)"/>
 
-      <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 z-10">
-        <h3 class="text-lg font-bold text-gray-800 mb-4 cursor-default select-none">Добавить материал</h3>
-        
-        <div class="flex flex-col gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1 cursor-pointer select-none" for="inp-title">Название материала</label>
-            <input 
-              id="inp-title"
-              v-model="newMaterial.title"
-              type="text" 
-              required
-              class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-gray-400 focus:outline-none"
-              placeholder="Введите название"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1 cursor-pointer select-none" for="inp-file">Файл</label>
-            <input 
-              id="inp-file"
-              type="file" 
-              required
-              @change="handleFileChange"
-              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
-            />
-          </div>
-
-          <div class="flex justify-end gap-3 mt-4">
-            <iconButton class="btn-light gap-2" @click="closeMaterialModal">
-              <template #text>
-                <p>Отмена</p>
-              </template>
-            </iconButton>
-
-            <iconButton class="btn-main gap-2" :class="{'btn-disabled': isSubmitting}" @click="createMaterial">
-              <template #text>
-                <p>{{ isSubmitting ? 'Загрузка...' : 'Добавить' }}</p>
-              </template>
-            </iconButton>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <showTestResultsMW v-if="isTestResultModalOpen" :discipline-id="currentDiscipline.id" @close="closeTestResultModal"/>
   </div>
 </template>
 
 <script lang="ts">
-import type { IDiscipline, IMaterial, ITest } from '@/utils/types';
+import type { IDiscipline, IMaterial, ITest, IAssigment } from '@/utils/types';
 import { defineComponent } from 'vue';
 
 import materialItem from './features/materialItem.vue';
 import testItem from './features/testItem.vue';
 import disciplineLogo from '@/widgets/PhotoTemplates/disciplineLogo.vue';
+import addMaterialMW from './widgets/addMaterialMW.vue';
+import showTestResultsMW from './widgets/showTestResultsMW.vue';
+import assigmentItem from './features/assigmentItem.vue';
+import addAssigmentMW from './widgets/addAssigmentMW.vue';
 
 export default defineComponent({
   name: 'DisciplineDetails',
@@ -150,6 +142,10 @@ export default defineComponent({
     materialItem,
     testItem,
     disciplineLogo,
+    addMaterialMW,
+    showTestResultsMW,
+    assigmentItem,
+    addAssigmentMW,
   },
   data() {
     return {
@@ -158,18 +154,15 @@ export default defineComponent({
       
       // Данные
       materials: [] as IMaterial[],
+      assignments: [] as IAssigment[],
       tests: [] as ITest[],
+      selectedTestId: null as number | null,
 
       // Состояние UI
       isLoading: false,
       isMaterialModalOpen: false,
-      isSubmitting: false,
-
-      // Форма нового материала
-      newMaterial: {
-        title: '',
-        file: null as File | null
-      }
+      isTestResultModalOpen: false,
+      isAssigmentModalOpen: false,
     };
   },
   mounted() {
@@ -197,6 +190,10 @@ export default defineComponent({
             { id: 1, title: 'Лекция 1. Введение', fileUrl: '#', createdAt: '2023-10-01' },
             { id: 2, title: 'Методичка к лабораторной', fileUrl: '#', createdAt: '2023-10-05' },
           ];
+          this.assignments = [
+            { id: 1, title: 'Практическая работа 1', fileUrl: '#', createdAt: '2023-10-01' },
+            { id: 2, title: 'Практическая работа 2', fileUrl: '#', createdAt: '2023-10-05' },
+          ];
           this.tests = [
             { id: 1, title: 'Контрольный тест №1', deadline: '2023-11-20', passingScore: 12, maxScore: 20 },
             { id: 2, title: 'Экзамен', deadline: '2023-12-25', passingScore: 50, maxScore: 100 },
@@ -217,57 +214,35 @@ export default defineComponent({
       this.$router.push('/test/create');
     },
 
-    // --- Модальное окно материалов ---
+    // --- Модальное окно создания учебных материалов ---
     openMaterialModal() {
+      this.isTestResultModalOpen = false;
+      this.isAssigmentModalOpen = false;
       this.isMaterialModalOpen = true;
     },
-    
     closeMaterialModal() {
       this.isMaterialModalOpen = false;
-      this.resetMaterialForm();
     },
 
-    resetMaterialForm() {
-      this.newMaterial.title = '';
-      this.newMaterial.file = null;
+    // --- Модальное окно создания задания ---
+    openAssigmentModal() {
+      this.isMaterialModalOpen = false;
+      this.isTestResultModalOpen = false;
+      this.isAssigmentModalOpen = true;
+    },
+    closeAssigmentModal() {
+      this.isAssigmentModalOpen = false;
     },
 
-    handleFileChange(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (input.files && input.files[0]) {
-        this.newMaterial.file = input.files[0];
-      }
+    // --- Модальное окно результатов теста ---
+    openTestResultModal(testID: number) {
+      this.selectedTestId = testID;
+      this.isMaterialModalOpen = false;
+      this.isAssigmentModalOpen = false;
+      this.isTestResultModalOpen = true;
     },
-
-    async createMaterial() {
-      if (!this.newMaterial.title || !this.newMaterial.file) return;
-
-      this.isSubmitting = true;
-      try {
-        const formData = new FormData();
-        formData.append('disciplineId', this.disciplineId);
-        formData.append('title', this.newMaterial.title);
-        formData.append('file', this.newMaterial.file);
-
-        // API: POST /materials (или похожий эндпоинт)
-        // await api.post('/materials', formData);
-        
-        console.log('Материал создан:', this.newMaterial.title);
-        
-        // Обновляем список (в реальном приложении добавляем ответ сервера)
-        this.materials.unshift({
-          id: Date.now(),
-          title: this.newMaterial.title,
-          fileUrl: '#',
-          createdAt: new Date().toISOString()
-        });
-
-        this.closeMaterialModal();
-      } catch (error) {
-        console.error('Ошибка при создании материала', error);
-      } finally {
-        this.isSubmitting = false;
-      }
+    closeTestResultModal() {
+      this.isTestResultModalOpen = false;
     },
 
     // --- Утилиты ---

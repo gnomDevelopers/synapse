@@ -15,6 +15,13 @@ export interface IMaterial {
   createdAt: string; // ISO Date string
 }
 
+export interface IAssigment {
+  id: number;
+  title: string;
+  fileUrl: string;
+  createdAt: string; // ISO Date string
+}
+
 export interface ITest {
   id: number;
   title: string;
