@@ -7,6 +7,157 @@
     },
     "basePath": "/",
     "paths": {
+        "/auth/assignment": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Создание нового задания с загрузкой файлов",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Название задания",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Описание задания",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Срок сдачи",
+                        "name": "deadline",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID дисциплины",
+                        "name": "discipline_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "file"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Файлы задания",
+                        "name": "media",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Созданное задание",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Assignment"
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный запрос или ошибка загрузки файлов",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/assignment/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Получение задания по ID с presigned ссылками на файлы",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID задания",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Задание с файлами",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Assignment"
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/discipline": {
             "get": {
                 "security": [
@@ -216,6 +367,69 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/discipline/{id}/assignment": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Получение всех заданий по ID дисциплины с presigned ссылками",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID дисциплины",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список заданий с файлами",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.Assignment"
+                            }
                         }
                     },
                     "400": {
@@ -643,6 +857,32 @@
         }
     },
     "definitions": {
+        "entities.Assignment": {
+            "type": "object",
+            "properties": {
+                "deadline": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "discipline_id": {
+                    "type": "integer"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.CreateDiscipline": {
             "type": "object",
             "properties": {

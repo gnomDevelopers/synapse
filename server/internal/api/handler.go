@@ -50,6 +50,10 @@ func (h *Handler) Router() *fiber.App {
 	authGroup.Get("/discipline", h.GetDisciplinesByTeacher)
 	authGroup.Put("/discipline", h.UpdateDiscipline)
 	authGroup.Delete("/discipline/:id", h.DeleteDiscipline)
+	authGroup.Get("/discipline/:id/assignment", h.GetAssignmentsByDiscipline)
+
+	authGroup.Post("/assignment", h.CreateAssignment)
+	authGroup.Get("/assignment/:id", h.GetAssignmentByID)
 
 	return f
 }

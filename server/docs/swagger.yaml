@@ -1,5 +1,22 @@
 basePath: /
 definitions:
+  entities.Assignment:
+    properties:
+      deadline:
+        type: string
+      description:
+        type: string
+      discipline_id:
+        type: integer
+      files:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   entities.CreateDiscipline:
     properties:
       name:
@@ -83,6 +100,104 @@ info:
   title: synapse API
   version: "1.0"
 paths:
+  /auth/assignment:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Название задания
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Описание задания
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Срок сдачи
+        in: formData
+        name: deadline
+        required: true
+        type: string
+      - description: ID дисциплины
+        in: formData
+        name: discipline_id
+        required: true
+        type: integer
+      - collectionFormat: multi
+        description: Файлы задания
+        in: formData
+        items:
+          type: file
+        name: media
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Созданное задание
+          schema:
+            $ref: '#/definitions/entities.Assignment'
+        "400":
+          description: Некорректный запрос или ошибка загрузки файлов
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Создание нового задания с загрузкой файлов
+      tags:
+      - Assignment
+  /auth/assignment/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID задания
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задание с файлами
+          schema:
+            $ref: '#/definitions/entities.Assignment'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение задания по ID с presigned ссылками на файлы
+      tags:
+      - Assignment
   /auth/discipline:
     get:
       consumes:
@@ -234,6 +349,46 @@ paths:
       summary: Удаление дисциплины
       tags:
       - Discipline
+  /auth/discipline/{id}/assignment:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID дисциплины
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список заданий с файлами
+          schema:
+            items:
+              $ref: '#/definitions/entities.Assignment'
+            type: array
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение всех заданий по ID дисциплины с presigned ссылками
+      tags:
+      - Assignment
   /auth/study-material:
     delete:
       consumes:
