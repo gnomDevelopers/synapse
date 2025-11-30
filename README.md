@@ -2,7 +2,7 @@
 
 ~~всем привет~~ Мы команда "Здесь могла быть ваша реклама". Мы участвуем в хакатоне Hack&Change 2025 и работаем над кейсом по созданию прототипа цифровой образовательной платформы от ПСБ.
 
-## Наша оманда
+## Наша команда
 
 - Игаев Даниил — Baskend Developer
 - Постников Даниил — Backend Developer
@@ -12,7 +12,7 @@
 
 ## Демонстрация
 
-Доступно [Живое демо проекта](https://zmbvr.aabc.dev), а также [видео демонстрация функционала](https://drive.google.com/drive/folders/1GAXZ9o8U_bKTVxRnyhqlWOW5k8tdn26I?usp=sharing).
+Доступно [живое демо проекта](https://zmbvr.aabc.dev), а также [видео демонстрация функционала](https://drive.google.com/drive/folders/1GAXZ9o8U_bKTVxRnyhqlWOW5k8tdn26I?usp=sharing).
 
 ---
 
