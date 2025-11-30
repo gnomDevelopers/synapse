@@ -83,7 +83,7 @@ func (h *Handler) CreateStudyMaterial(c *fiber.Ctx) error {
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
 // @Failure      500 {object} entities.Error "Ошибка на стороне сервера"
-// @Router       /auth/study-material [get]
+// @Router       /auth/study-materials [get]
 // @Security ApiKeyAuth
 func (h *Handler) GetStudyMaterialsByTeacher(c *fiber.Ctx) error {
 	userID, ok := c.Locals("id").(int)

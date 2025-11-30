@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"context"
+	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 )
@@ -71,6 +73,14 @@ func (r *Repository) CreateStudyMaterials() {
 
 	if count == 0 {
 		for _, material := range MockStudyMaterials {
+			if material.FileName != "" {
+
+				filePath := fmt.Sprintf("./server/internal/mock_data/%s", material.FileName)
+				err = r.S3.FPutObject(context.Background(), "study-material", material.FileName, filePath, "application/octet-stream")
+				if err != nil {
+					log.Fatal(fmt.Errorf("create mock study material error creating file in minio: %w", err))
+				}
+			}
 			query := `
 				INSERT INTO study_materials (teacher_id, name, link, file_name, date) 
 				VALUES ($1, $2, $3, $4, $5)

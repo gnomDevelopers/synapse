@@ -52,7 +52,7 @@ func (h *Handler) Router() *fiber.App {
 	authGroup.Delete("/discipline/:id", h.DeleteDiscipline)
 
 	authGroup.Post("/study-material", h.CreateStudyMaterial)
-	authGroup.Get("/study-material", h.GetStudyMaterialsByTeacher)
+	authGroup.Get("/study-materials", h.GetStudyMaterialsByTeacher)
 	authGroup.Get("/study-material/id/:id", h.GetStudyMaterialByID)
 	authGroup.Put("/study-material", h.UpdateStudyMaterial)
 	authGroup.Delete("/study-material/:id", h.DeleteStudyMaterial)
