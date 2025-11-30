@@ -7,9 +7,7 @@ export const useUserStore = defineStore('user', {
 
       id: null as number | null,
       email: null as string | null,
-      first_name: null as string | null,
-      last_name: null as string | null,
-      middle_name: null as string | null,
+      fio: null as string | null,
     }
   },
   actions: {

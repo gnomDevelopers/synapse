@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
     <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center shrink-0 text-gray-500">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 27 33" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 27.0208C1.5 26.0539 1.88411 25.1266 2.56784 24.4428C3.25157 23.7591 4.1789 23.375 5.14583 23.375H24.8333M1.5 27.0208C1.5 27.9878 1.88411 28.9151 2.56784 29.5988C3.25157 30.2826 4.1789 30.6667 5.14583 30.6667H24.8333V1.5H5.14583C4.1789 1.5 3.25157 1.88411 2.56784 2.56784C1.88411 3.25157 1.5 4.1789 1.5 5.14583V27.0208Z" stroke="#888383" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     
     <div class="grow">

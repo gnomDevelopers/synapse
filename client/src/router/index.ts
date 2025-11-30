@@ -1,4 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
+import { useUserStore } from '@/stores/userStore';
+import { getUser } from '@/api/api';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +54,53 @@ const router = createRouter({
       ]
     },
   ],
-})
+});
+
+
+// 2. Глобальный навигационный хук (Middleware)
+router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next) => {
+  // Получаем экземпляр стора
+  const userStore = useUserStore(); 
+  
+  // Флаг, требующий авторизации для текущего маршрута
+  const requiresAuth = to.meta.requiresAuth as boolean;
+
+  // Проверка и загрузка данных пользователя (если 'isAuthorized' === null)
+  if (userStore.isAuthorized === null) {
+    try {
+      const userData = await getUser(); 
+      
+      // Если запрос успешен и вернул данные, сохраняем их и устанавливаем авторизацию
+      userStore.$patch({
+        isAuthorized: true,
+        id: userData.data.id,
+        fio: userData.data.fio
+      });
+
+    } catch (error) {
+      // Если запрос неудачен, считаем пользователя неавторизованным
+      userStore.isAuthorized = false;
+      console.log("Пользователь не авторизован или ошибка API:", error);
+    }
+  }
+
+  // Обработка перехода в зависимости от статуса авторизации
+  if (requiresAuth && !userStore.isAuthorized) {
+    // 1. Маршрут требует авторизации И пользователь НЕ авторизован
+    // Перенаправляем на страницу входа
+    
+    // next({ name: 'AuthPage' });
+    next();
+  } else if (userStore.isAuthorized && (to.name === 'Login')) {
+    // 2. Пользователь АВТОРИЗОВАН и пытается перейти на страницу входа/регистрации
+    // Перенаправляем его на домашнюю страницу или страницу профиля
+    next({ name: 'MainPage' }); 
+  } else {
+    // 3. Во всех остальных случаях (авторизован на защищенную, или неавторизован на публичную)
+    // Разрешаем переход
+    next();
+  }
+});
+
 
 export default router

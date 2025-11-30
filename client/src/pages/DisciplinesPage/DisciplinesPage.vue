@@ -5,10 +5,14 @@
       <div class="w-full max-w-4xl flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800 cursor-default">Мои дисциплины</h1>
         <iconButton class="btn-main gap-2" @click="openModal">
+          <template #icon>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          </template>
           <template #text>
             <p>Добавить</p>
           </template>
         </iconButton>
+        
       </div>
 
       <div class="w-full flex flex-col items-center gap-6">

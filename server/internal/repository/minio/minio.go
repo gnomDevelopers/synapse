@@ -45,7 +45,7 @@ func MinioConnection(conf *config.Config) *S3 {
 		fmt.Printf("successfully created %s\n", "study-material")
 	}
 
-	err = minioClient.MakeBucket(context.Background(), "task-media", minio.MakeBucketOptions{Region: location})
+	err = minioClient.MakeBucket(context.Background(), "assignment-media", minio.MakeBucketOptions{Region: location})
 	if err != nil {
 
 		exists, errBucketExists := minioClient.BucketExists(context.Background(), "task-media")
@@ -55,33 +55,7 @@ func MinioConnection(conf *config.Config) *S3 {
 			log.Fatalln(fmt.Errorf("minio MakeBucket task-media error: %w", err))
 		}
 	} else {
-		fmt.Printf("successfully created %s\n", "task-media")
-	}
-
-	err = minioClient.MakeBucket(context.Background(), "application-media", minio.MakeBucketOptions{Region: location})
-	if err != nil {
-
-		exists, errBucketExists := minioClient.BucketExists(context.Background(), "application-media")
-		if errBucketExists == nil && exists {
-			fmt.Printf("We already own %s\n", "application-media")
-		} else {
-			log.Fatalln(fmt.Errorf("minio MakeBucket application-media error: %w", err))
-		}
-	} else {
-		fmt.Printf("successfully created %s\n", "application-media")
-	}
-
-	err = minioClient.MakeBucket(context.Background(), "form-media", minio.MakeBucketOptions{Region: location})
-	if err != nil {
-
-		exists, errBucketExists := minioClient.BucketExists(context.Background(), "form-media")
-		if errBucketExists == nil && exists {
-			fmt.Printf("We already own %s\n", "form-media")
-		} else {
-			log.Fatalln(fmt.Errorf("minio MakeBucket form-media error: %w", err))
-		}
-	} else {
-		fmt.Printf("successfully created %s\n", "form-media")
+		fmt.Printf("successfully created %s\n", "assignment-media")
 	}
 
 	return &S3{minioClient}
