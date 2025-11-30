@@ -67,7 +67,7 @@ git clone https://github.com/gnomDevelopers/synapse.git
 cd synapse
 
 # Копируем конфигурацию
-cp server/env.example ./.env
+cp .env.example .env
 
 # Запускаем контейнеры
 docker compose up -d
