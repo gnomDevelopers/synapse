@@ -51,6 +51,7 @@ import { useStatusWindowAPI } from '@/widgets/StatusWindow/statusWindowAPI';
 
 import loginInput from '@/pages/AuthPage/features/authInput.vue';
 import { SET_COOKIE } from '@/utils/functions';
+import { login, register, type IAuthRequest } from '@/api/api';
 
 export default {
   components:{
@@ -93,7 +94,7 @@ export default {
     validFIOInput(value: string){
       this.fioValid = ValidUserFIO(value);
     },
-    initLogIn(){
+    async initLogIn(){
       if(
         this.emailValid.value !== '' && 
         this.passwordValid.value !== '' &&
@@ -102,22 +103,40 @@ export default {
 
         const stID = this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.loading, text: 'Verifying', time: -1});
         
-        // this.StatusWindowAPI.deleteStatusWindow(stID);
-        // this.StatusWindowAPI.createStatusWindow({
-        //   status: this.StatusWindowAPI.getCodes.success, 
-        //   text: 'Профиль успешно создан! Ожидайте подтверждение учетной записи от администрации вашего ВУЗа', 
-        //   time: 10000, 
-        //   type: this.StatusWindowAPI.getTypes.detail
-        // });
+        try {
+          const res = await register({
+            email: this.emailValid.value,
+            password: this.passwordValid.value,
+            full_name: this.fioValid.value,
+          });
 
-        // try{
-        //   SET_COOKIE('access_token', login_res.data.access_token, new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)); // +-2 минуты аксес токен
-        //   SET_COOKIE('refresh_token', login_res.data.refresh_token, new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)); // 30 дней рефреш токен
-        // }
-        // catch(e){ console.error(e);}
+          this.StatusWindowAPI.deleteStatusWindow(stID);
 
-        // //Устанавливаем null чтобы при переходе роутер заново запросил информацию об аккаунте
-        // this.userStore.isAuthorized = null;
+          try {
+            const loginRes = await login({
+              email: this.emailValid.value,
+              password: this.passwordValid.value,
+            });
+
+            try{
+              SET_COOKIE('access_token', res.data.access_token, new Date(Date.now() + 1000 * 60 * 60 * 24 * 30));
+              SET_COOKIE('refresh_token', res.data.refresh_token, new Date(Date.now() + 1000 * 60 * 60 * 24 * 30));
+            }
+            catch(e){ console.error(e);}
+
+            this.userStore.isAuthorized = true;
+            this.userStore.id = 15;
+            this.userStore.fio = this.fioValid.value;
+
+            this.$router.push({name: "MainPage"});
+
+          } catch(e) {
+            throw Error("idk");
+          }
+        } catch(e) {
+          this.StatusWindowAPI.deleteStatusWindow(stID);
+          this.StatusWindowAPI.createStatusWindow({status: this.StatusWindowAPI.getCodes.error, text: 'Verify failed', time: 2000});
+        }
       }
 
       if(this.fioValid.value === ''){

@@ -3,7 +3,7 @@ import { refresh } from './auth';
 import { GET_COOKIE, SET_COOKIE } from '@/utils/functions';
 
 // --- Константы ---
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:10801';
 let isRefreshing = false;
 
 // --- Расширение интерфейса Axios ---
@@ -58,7 +58,7 @@ $api.interceptors.response.use((response) => {
     try {
       // Запрос на /refresh. Ответ должен содержать новый AccessToken
       const response = await refresh();
-      const newAccessToken = response.data.accessToken;
+      const newAccessToken = response.data.access_token;
 
       const expiryDate = new Date();
       expiryDate.setTime(expiryDate.getTime() + 5 * 60 * 1000);

@@ -16,7 +16,7 @@ export interface IUserResponse {
  * Интерфейс тела запроса для регистрации/логина
  */
 export interface IAuthRequest {
-  fio?:string;
+  full_name?:string;
   email: string;
   password: string;
 }
@@ -25,8 +25,8 @@ export interface IAuthRequest {
  * Интерфейс ответа при успешной авторизации/обновлении
  */
 export interface IAuthResponse {
-  user: IUserResponse;
-  accessToken: string;
+  access_token: string;
+  refresh_token: string;
 }
 
 // --- Методы API ---
@@ -36,7 +36,7 @@ export interface IAuthResponse {
  * @param data Данные пользователя
  */
 export const register = (data: IAuthRequest): Promise<AxiosResponse<IAuthResponse>> => {
-  return $api.post<IAuthResponse>('/auth/register', data);
+  return $api.post<IAuthResponse>('/sign-up', data);
 };
 
 /**
@@ -44,7 +44,7 @@ export const register = (data: IAuthRequest): Promise<AxiosResponse<IAuthRespons
  * @param data Email и пароль
  */
 export const login = (data: Pick<IAuthRequest, 'email' | 'password'>): Promise<AxiosResponse<IAuthResponse>> => {
-  return $api.post<IAuthResponse>('/auth/login', data);
+  return $api.post<IAuthResponse>('/login', data);
 };
 
 /**
