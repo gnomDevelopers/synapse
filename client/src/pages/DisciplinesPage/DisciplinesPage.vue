@@ -4,7 +4,7 @@
       
       <div class="w-full max-w-4xl flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800 cursor-default">Мои дисциплины</h1>
-        <iconButton class="btn-main" @click="openModal" >
+        <iconButton class="btn-main gap-2" @click="openModal">
           <template #text>
             <p>Добавить</p>
           </template>

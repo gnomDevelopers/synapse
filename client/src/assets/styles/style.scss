@@ -5,15 +5,25 @@
   --color-clr10: oklch(0.9159 0.0178 296.61);
   
   --color-main: oklch(0.2215 0.1397 269.89);
+  --color-light: oklch(0.8444 0.0406 296.57);
 
   --color-btn-main: oklch(0.8444 0.0406 296.57);
   --color-btn-main-hover: oklch(0.8444 0.0906 296.57);
   --color-btn-main-active: oklch(0.8244 0.0606 296.57);
   --color-btn-main-text: oklch(0.2215 0.1397 269.89);
 
+  --color-btn-light: oklch(0.999 0 0);
+  --color-btn-light-hover: oklch(0.9588 0.0192 269.89);
+  --color-btn-light-active: oklch(0.9184 0.0192 269.89);
+  --color-btn-light-text: oklch(0.09 0 0);
+
   --color-border: oklch(0.885 0 0);
 
   --color-blur: oklch(0.6086 0.0592 295.17);
+
+  --color-btn-disabled: oklch(0.7107 0 0);
+  --color-btn-disabled-text: oklch(0.1469 0 0);
+
 }
 
 @layer base {
@@ -42,64 +52,24 @@
       &:active{
         background-color: var(--color-btn-main-active);
       }
-
-      &-light{
-        padding: 6px 18px;
-        border-radius: 6px;
-      }
-    }
-
-    &-logout{
-      padding: 4px 4px;
-      border: 2px solid var(--btn-color-logout-border);
-      border-radius: 6px;
-      color: var(--text-color);
-
-      &:hover{
-        background-color: var(--btn-color-logout-hover);
-      }
-      &:active{
-        background-color: var(--btn-color-logout-active);
-      }
-    }
-
-    &-file{
-      fill: var(--text-color-btn);
-      background-color: var(--btn-color-file);
-      &:hover{
-        background-color: var(--btn-color-file-hover);
-      }
-      &:active{
-        background-color: var(--btn-color-file-active);
-      }
     }
 
     &-light{
-      padding: 4px 16px;
-      font-size: 20px;
-      border-radius: 6px;
-      color: var(--text-color);
-      background-color: transparent;
-
-      &-good{
-        border: 2px solid var(--btn-color-main);
-        &:hover{
-          background-color: #22700042;
-        }
-        &:active{
-          background-color: #18500042;
-        }
+      color: var(--color-text);
+      background-color: var(--color-btn-light);
+      border: 2px solid var(--color-light);
+      &:hover{
+        background-color: var(--color-btn-light-hover);
       }
-
-      &-bad{
-        border: 2px solid var(--btn-color-bad);
-        &:hover{
-          background-color: #cf2e2e42;
-        }
-        &:active{
-          background-color: #8f161642;
-        }
+      &:active{
+        background-color: var(--color-btn-light-active);
       }
+    }
+
+    &-disabled, &-disabled:hover, &-disabled:active{
+      background-color: var(--color-btn-disabled) !important;
+      color: var(--color-btn-disabled-text) !important;
+      cursor: not-allowed;
     }
   }
 }
