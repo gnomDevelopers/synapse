@@ -1,11 +1,11 @@
 <template>
-  <div 
+  <div
     class="rounded-full overflow-hidden shrink-0"
     :class="sizeClasses"
   >
-    <img 
-      :src="avatarSrc" 
-      alt="User Avatar" 
+    <img
+      :src="avatarSrc"
+      alt="User Avatar"
       class="w-full h-full object-cover"
     />
   </div>
@@ -13,8 +13,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-const ASSETS_PATH = '../../assets/images/avatars';
 
 export default defineComponent({
   name: 'UserAvatar',
@@ -34,12 +32,7 @@ export default defineComponent({
       return (Math.abs(this.userId) % 13) + 1;
     },
     avatarSrc(): string {
-      try {
-        return new URL(`${ASSETS_PATH}/avatar-${this.avatarIndex}.png`, import.meta.url).href;
-      } catch (e) {
-        console.error('Ошибка загрузки аватара:', e);
-        return new URL(`${ASSETS_PATH}/avatar-1.png`, import.meta.url).href;
-      }
+      return `/images/avatars/avatar-${this.avatarIndex}.png`;
     },
     sizeClasses(): string {
       switch (this.size) {

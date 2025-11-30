@@ -3,11 +3,12 @@ package handler
 import (
 	_ "synapse/docs"
 
+	"synapse/internal/config"
+	"synapse/internal/repository"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
-	"synapse/internal/config"
-	"synapse/internal/repository"
 )
 
 type Handler struct {
@@ -26,10 +27,10 @@ func (h *Handler) Router() *fiber.App {
 	})
 
 	f.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		//AllowCredentials: true,
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
-		AllowMethods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+		AllowOrigins:     "http://localhost:10800, http://localhost:5173, http://localhost:3000, http://127.0.0.1:10800, http://127.0.0.1:5173, https://zmbvr.aabc.dev",
+		AllowCredentials: true,
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
+		AllowMethods:     "GET, HEAD, PUT, PATCH, POST, DELETE",
 	}))
 	//f.Use(log.RequestLogger(h.logger))
 
