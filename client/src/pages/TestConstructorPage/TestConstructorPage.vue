@@ -10,7 +10,7 @@
             </svg>
           </template>
           <template #text>
-            <p>Вернуться назад</p>
+            <p>Назад</p>
           </template>
         </iconButton>
 
@@ -220,15 +220,7 @@ export default defineComponent({
       // axios.get('/api/tests/1/questions').then(...)
 
       // Имитация данных
-      this.questions = [
-        {
-          id: 1,
-          text: 'Что выведет console.log(typeof null) в JS?',
-          points: 5,
-          correctAnswers: ['"object"'],
-          incorrectAnswers: ['"null"', '"undefined"', '"number"']
-        }
-      ];
+      this.questions = [];
     },
 
     // --- Логика формы ---
