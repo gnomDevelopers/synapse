@@ -1,42 +1,57 @@
-# client
+# Клиентская часть (Vue 3 + TypeScript)
 
-This template should help get you started developing with Vue 3 in Vite.
+Данный репозиторий содержит фронтенд часть приложения, разработанную с использованием современных технологий и архитектурного подхода **Feature-Sliced Design (FSD)**.
 
-## Recommended IDE Setup
+## Технологии
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+| Технология | Описание |
+| :--- | :--- |
+| **Vue 3 (Options API)** | Основной фреймворк для построения пользовательского интерфейса. |
+| **TypeScript (TS)** | Обеспечивает строгую типизацию и повышает надежность кода. |
+| **Tailwind CSS** | Утилитарный CSS-фреймворк для быстрого и адаптивного дизайна. |
+| **Pinia** | Легковесный и реактивный стейт-менеджер для Vue. |
+| **Vue Router** | Управление маршрутизацией в приложении. |
+| **Axios** | HTTP-клиент для взаимодействия с API. |
 
-## Recommended Browser Setup
+---
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Архитектура
 
-## Type Support for `.vue` Imports in TS
+Проект следует принципам **Feature-Sliced Design (FSD)**, что обеспечивает четкое разделение кода, масштабируемость и упрощает навигацию и рефакторинг.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+---
 
-## Customize configuration
+## Структура Каталогов
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Основной код фронтенда находится в папке `client`.
 
-## Project Setup
+client/\
+├── node_modules/\
+├── src/ # Исходный код приложения\
+│ ├── api/ # Взаимодействие с API (Axios instance, типы ответов)\
+│ ├── assets/ # Статические ресурсы (изображения, шрифты, стили)\
+│ ├── pages/ # FSD: Страницы приложения (компоненты-контейнеры)\
+│ ├── widgets/ # FSD: Крупные, составные блоки интерфейса (сайты, шапки)\
+│ ├── router/ # Настройка Vue Router (определение маршрутов)\
+│ ├── stores/ # Глобальное состояние Pinia (модули, соответствующие доменам)\
+│ └── utils/ # Вспомогательные функции, хелперы (форматирование, валидация)\
+├── public/\
+└── ... # конфигурационные файлы
 
-```sh
-npm install
-```
+---
 
-### Compile and Hot-Reload for Development
+## Механизм Авторизации и API
 
-```sh
-npm run dev
-```
+### Axios Interceptors (Автоматическое Обновление Токенов)
 
-### Type-Check, Compile and Minify for Production
+В файле конфигурации **Axios** (расположенном в папке `src/api`) реализована логика **Interceptor** для обработки HTTP-запросов и ответов:
 
-```sh
-npm run build
-```
+1.  **Request Interceptor:** Добавляет актуальный Access Token в заголовок `Authorization` для каждого исходящего запроса.
+2.  **Response Interceptor:** Отслеживает ответы со статусом `401 Unauthorized`.
+    * При получении `401`, Interceptor автоматически инициирует запрос на сервер для **обновления токенов** с использованием Refresh Token.
+    * После успешного обновления, Interceptor повторяет исходный запрос уже с новым Access Token.
+    * В случае неудачи обновления токена, пользователь принудительно разлогинивается и перенаправляется на страницу входа.
+
+### Управление состоянием
+
+Состояние авторизации, данные пользователя и сами токены хранятся в соответствующем модуле **Pinia** в папке `src/stores`.
