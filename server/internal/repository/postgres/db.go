@@ -46,4 +46,5 @@ func CreateTable(db *sqlx.DB) {
 	db.MustExec(createTableGrades)
 	db.MustExec(createTableTests)
 	db.MustExec(createTableQuestions)
+	db.MustExec(createTableStudyMaterials)
 }

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	_ "synapse/docs"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
@@ -36,6 +38,9 @@ func (h *Handler) Router() *fiber.App {
 		return c.Status(fiber.StatusOK).SendString("healthy")
 	})
 
+	f.Post("/sign-up", h.SignUp)
+	f.Post("/login", h.Login)
+
 	authGroup := f.Group("/auth")
 	authGroup.Use(func(c *fiber.Ctx) error {
 		return h.WithJWTAuth(c)
@@ -44,7 +49,7 @@ func (h *Handler) Router() *fiber.App {
 	authGroup.Post("/discipline", h.CreateDiscipline)
 	authGroup.Get("/discipline", h.GetDisciplinesByTeacher)
 	authGroup.Put("/discipline", h.UpdateDiscipline)
-	authGroup.Delete("/discipline", h.DeleteDiscipline)
+	authGroup.Delete("/discipline/:id", h.DeleteDiscipline)
 
 	return f
 }

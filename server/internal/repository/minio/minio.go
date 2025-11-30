@@ -32,17 +32,17 @@ func MinioConnection(conf *config.Config) *S3 {
 
 	location := "ru-central-1"
 
-	err = minioClient.MakeBucket(context.Background(), "university-media", minio.MakeBucketOptions{Region: location})
+	err = minioClient.MakeBucket(context.Background(), "study-material", minio.MakeBucketOptions{Region: location})
 	if err != nil {
 
-		exists, errBucketExists := minioClient.BucketExists(context.Background(), "university-media")
+		exists, errBucketExists := minioClient.BucketExists(context.Background(), "study-material")
 		if errBucketExists == nil && exists {
-			fmt.Printf("We already own %s\n", "university-media")
+			fmt.Printf("We already own %s\n", "study-material")
 		} else {
-			log.Fatalln(fmt.Errorf("minio MakeBucket university-media error: %w", err))
+			log.Fatalln(fmt.Errorf("minio MakeBucket study-material error: %w", err))
 		}
 	} else {
-		fmt.Printf("successfully created %s\n", "university-media")
+		fmt.Printf("successfully created %s\n", "study-material")
 	}
 
 	err = minioClient.MakeBucket(context.Background(), "task-media", minio.MakeBucketOptions{Region: location})

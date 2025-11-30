@@ -57,4 +57,13 @@ question_text TEXT NOT NULL,
 correct_answers TEXT[],
 incorrect_answers TEXT[]
 );`
+
+	createTableStudyMaterials = `
+CREATE TABLE IF NOT EXISTS study_materials (
+    id SERIAL PRIMARY KEY,
+    teacher_id INT REFERENCES teachers(id) ON DELETE CASCADE,
+    name VARCHAR NOT NULL,
+    link VARCHAR NOT NULL,
+    file_name VARCHAR NOT NULL
+);`
 )

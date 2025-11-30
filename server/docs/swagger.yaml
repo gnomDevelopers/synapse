@@ -1,0 +1,495 @@
+basePath: /
+definitions:
+  entities.CreateDiscipline:
+    properties:
+      name:
+        type: string
+    type: object
+  entities.CreateTeacher:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+    type: object
+  entities.Discipline:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      teacher_id:
+        type: integer
+    type: object
+  entities.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  entities.LoginUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  entities.LoginUserResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  entities.Response:
+    properties:
+      response:
+        type: string
+    type: object
+  entities.StudyMaterial:
+    properties:
+      file_name:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      name:
+        type: string
+      teacher_id:
+        type: integer
+    type: object
+  entities.UpdateDiscipline:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  entities.UpdateStudyMaterial:
+    properties:
+      file_name:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: synapse API
+  version: "1.0"
+paths:
+  /auth/discipline:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Discipline'
+            type: array
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение дисциплин преподавателя
+      tags:
+      - Discipline
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: adwawd
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateDiscipline'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Response'
+            type: array
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение заявок представителей на регистрацию
+      tags:
+      - Discipline
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные для обновления
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UpdateDiscipline'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление дисциплины
+      tags:
+      - Discipline
+  /auth/discipline/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        example: 1
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление дисциплины
+      tags:
+      - Discipline
+  /auth/study-material:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID учебного материала
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление учебного материала
+      tags:
+      - StudyMaterial
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Название
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Ссылка
+        in: formData
+        name: link
+        required: true
+        type: string
+      - description: Загрузка файла
+        in: formData
+        name: media
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Создание учебного материала
+      tags:
+      - StudyMaterial
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные для обновления
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UpdateStudyMaterial'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление учебного материала
+      tags:
+      - StudyMaterial
+  /auth/study-material/id/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID учебного материала
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.StudyMaterial'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение учебного материала по ID
+      tags:
+      - StudyMaterial
+  /auth/study-materials:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.StudyMaterial'
+            type: array
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "401":
+          description: Ошибка аутентификации
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "403":
+          description: Недостаточно прав
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение учебных материалов преподавателя
+      tags:
+      - StudyMaterial
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Вход пользователя в систему с выдачей токенов доступа и обновления
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entities.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешная аутентификация
+          schema:
+            $ref: '#/definitions/entities.LoginUserResponse'
+        "400":
+          description: Некорректные данные для входа
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      summary: Аутентификация пользователя
+      tags:
+      - Auth
+  /sign-up:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateTeacher'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно зарегистрирован
+          schema:
+            $ref: '#/definitions/entities.Response'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/entities.Error'
+        "500":
+          description: Ошибка на стороне сервера
+          schema:
+            $ref: '#/definitions/entities.Error'
+      summary: Регистрация пользователя
+      tags:
+      - Auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

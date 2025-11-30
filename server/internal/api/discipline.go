@@ -7,11 +7,12 @@ import (
 )
 
 // CreateDiscipline
-// @Tags         Admin
+// @Tags         Discipline
 // @Summary      Получение заявок представителей на регистрацию
 // @Accept       json
 // @Produce      json
-// @Success      200 {array} entities.CreateDiscipline ""
+// @Param        request body entities.CreateDiscipline true "adwawd"
+// @Success      200 {array} entities.Response ""
 // @Failure      400 {object} entities.Error "Некорректный запрос"
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
@@ -42,7 +43,7 @@ func (h *Handler) CreateDiscipline(c *fiber.Ctx) error {
 }
 
 // GetDisciplinesByTeacher
-// @Tags         Teacher
+// @Tags         Discipline
 // @Summary      Получение дисциплин преподавателя
 // @Accept       json
 // @Produce      json
@@ -51,7 +52,7 @@ func (h *Handler) CreateDiscipline(c *fiber.Ctx) error {
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
 // @Failure      500 {object} entities.Error "Ошибка на стороне сервера"
-// @Router       /auth/disciplines [get]
+// @Router       /auth/discipline [get]
 // @Security ApiKeyAuth
 func (h *Handler) GetDisciplinesByTeacher(c *fiber.Ctx) error {
 	userID, ok := c.Locals("id").(int)
@@ -71,7 +72,7 @@ func (h *Handler) GetDisciplinesByTeacher(c *fiber.Ctx) error {
 }
 
 // UpdateDiscipline
-// @Tags         Teacher
+// @Tags         Discipline
 // @Summary      Обновление дисциплины
 // @Accept       json
 // @Produce      json
@@ -107,17 +108,17 @@ func (h *Handler) UpdateDiscipline(c *fiber.Ctx) error {
 }
 
 // DeleteDiscipline
-// @Tags         Teacher
+// @Tags         Discipline
 // @Summary      Удаление дисциплины
 // @Accept       json
 // @Produce      json
-// @Param        id query int true "ID дисциплины"
+// @Param id path int true "ID" example(1)
 // @Success      200 {object} entities.Response ""
 // @Failure      400 {object} entities.Error "Некорректный запрос"
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
 // @Failure      500 {object} entities.Error "Ошибка на стороне сервера"
-// @Router       /auth/discipline [delete]
+// @Router       /auth/discipline/{id} [delete]
 // @Security ApiKeyAuth
 func (h *Handler) DeleteDiscipline(c *fiber.Ctx) error {
 	disciplineID, err := c.ParamsInt("id")
