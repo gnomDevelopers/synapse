@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1.7
-
-FROM golang:1.24-bullseye AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /src
 
@@ -13,12 +11,9 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -ldflags="-s -w" -o server ./cmd
 
 
-FROM debian:bookworm-slim
+FROM alpine:3.20
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache ca-certificates curl
 
 WORKDIR /app
 

@@ -16,14 +16,10 @@ ENV NODE_ENV=production
 RUN npm run build
 
 
-##
-## Runtime stage
-##
 FROM nginx:1.27-alpine AS runtime
 
 WORKDIR /usr/share/nginx/html
 
-# Configure nginx to serve the SPA on port 3800 with custom logs
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /var/log/app && \
