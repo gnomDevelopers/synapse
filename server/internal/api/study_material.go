@@ -43,6 +43,8 @@ func (h *Handler) CreateStudyMaterial(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(entities.Error{Error: err.Error()})
 	}
 
+	e.Date = time.Now().Format("02.01.2006")
+
 	media := form.File["media"]
 	if len(media) != 0 {
 		e.FileName = media[0].Filename
@@ -71,7 +73,7 @@ func (h *Handler) CreateStudyMaterial(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(entities.Response{Response: "successful creating study material"})
 }
 
-// GetStudyMaterialsByStudyMaterial
+// GetStudyMaterialsByTeacher
 // @Tags         StudyMaterial
 // @Summary      Получение учебных материалов преподавателя
 // @Accept       json
@@ -81,9 +83,9 @@ func (h *Handler) CreateStudyMaterial(c *fiber.Ctx) error {
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
 // @Failure      500 {object} entities.Error "Ошибка на стороне сервера"
-// @Router       /auth/study-materials [get]
+// @Router       /auth/study-material [get]
 // @Security ApiKeyAuth
-func (h *Handler) GetStudyMaterialsByStudyMaterial(c *fiber.Ctx) error {
+func (h *Handler) GetStudyMaterialsByTeacher(c *fiber.Ctx) error {
 	userID, ok := c.Locals("id").(int)
 	if !ok {
 		fmt.Println("error: cant get id from token")
@@ -174,13 +176,13 @@ func (h *Handler) UpdateStudyMaterial(c *fiber.Ctx) error {
 // @Summary      Удаление учебного материала
 // @Accept       json
 // @Produce      json
-// @Param        id query int true "ID учебного материала"
+// @Param        id path int true "ID учебного материала"
 // @Success      200 {object} entities.Response ""
 // @Failure      400 {object} entities.Error "Некорректный запрос"
 // @Failure      401 {object} entities.Error "Ошибка аутентификации"
 // @Failure      403 {object} entities.Error "Недостаточно прав"
 // @Failure      500 {object} entities.Error "Ошибка на стороне сервера"
-// @Router       /auth/study-material [delete]
+// @Router       /auth/study-material/{id} [delete]
 // @Security ApiKeyAuth
 func (h *Handler) DeleteStudyMaterial(c *fiber.Ctx) error {
 	materialID, err := c.ParamsInt("id")
