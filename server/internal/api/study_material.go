@@ -98,6 +98,15 @@ func (h *Handler) GetStudyMaterialsByTeacher(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	for i, _ := range materials {
+		if materials[i].FileName != "" {
+			url, _ := h.repository.S3.PresignedGetObject(context.Background(), "study-material", materials[i].FileName, 7*24*time.Hour)
+			if url != nil {
+				materials[i].FileName = url.String()
+			}
+		}
+	}
+
 	fmt.Println("success")
 	return c.Status(fiber.StatusOK).JSON(materials)
 }
