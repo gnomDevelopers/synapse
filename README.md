@@ -12,7 +12,7 @@
 
 ## Демонстрация
 
-[Видео демонстрация работы проекта](https://drive.google.com/drive/folders/1GAXZ9o8U_bKTVxRnyhqlWOW5k8tdn26I?usp=sharing)
+Доступно [Живое демо проекта], а также [видео демонстрация функционала](https://drive.google.com/drive/folders/1GAXZ9o8U_bKTVxRnyhqlWOW5k8tdn26I?usp=sharing).
 
 ---
 
