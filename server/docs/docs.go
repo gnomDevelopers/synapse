@@ -598,64 +598,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "StudyMaterial"
-                ],
-                "summary": "Удаление учебного материала",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID учебного материала",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Некорректный запрос",
-                        "schema": {
-                            "$ref": "#/definitions/entities.Error"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка аутентификации",
-                        "schema": {
-                            "$ref": "#/definitions/entities.Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Недостаточно прав",
-                        "schema": {
-                            "$ref": "#/definitions/entities.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Ошибка на стороне сервера",
-                        "schema": {
-                            "$ref": "#/definitions/entities.Error"
-                        }
-                    }
-                }
             }
         },
         "/auth/study-material/id/{id}": {
@@ -689,6 +631,66 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.StudyMaterial"
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Недостаточно прав",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/study-material/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "StudyMaterial"
+                ],
+                "summary": "Удаление учебного материала",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID учебного материала",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Response"
                         }
                     },
                     "400": {
@@ -968,6 +970,9 @@ const docTemplate = `{
         "entities.StudyMaterial": {
             "type": "object",
             "properties": {
+                "date": {
+                    "type": "string"
+                },
                 "file_name": {
                     "type": "string"
                 },
@@ -999,6 +1004,9 @@ const docTemplate = `{
         "entities.UpdateStudyMaterial": {
             "type": "object",
             "properties": {
+                "date": {
+                    "type": "string"
+                },
                 "file_name": {
                     "type": "string"
                 },

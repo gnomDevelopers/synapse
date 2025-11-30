@@ -37,7 +37,7 @@ func main() {
 
 	repo := repository.Repository{DB: db, S3: s3}
 	handlers := handler.NewHandler(&repo, conf)
-
+	repo.CreateMocks()
 	app := handlers.Router()
 	app.Listen(":8080")
 }

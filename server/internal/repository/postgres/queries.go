@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS study_materials (
     teacher_id INT REFERENCES teachers(id) ON DELETE CASCADE,
     name VARCHAR NOT NULL,
     link VARCHAR NOT NULL,
-    file_name VARCHAR NOT NULL
+    file_name VARCHAR NOT NULL,
+    date VARCHAR NOT NULL
 );`
 )

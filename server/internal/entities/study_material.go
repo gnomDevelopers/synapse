@@ -6,12 +6,14 @@ type StudyMaterial struct {
 	Name      string `json:"name" db:"name"`
 	Link      string `json:"link" db:"link"`
 	FileName  string `json:"file_name" db:"file_name"`
+	Date      string `json:"date" db:"date"`
 }
 
 type CreateStudyMaterial struct {
 	Name     string `json:"name" db:"name"`
 	Link     string `json:"link" db:"link"`
 	FileName string `json:"file_name" db:"file_name"`
+	Date     string `json:"date" db:"date"`
 }
 
 type UpdateStudyMaterial struct {
@@ -19,4 +21,5 @@ type UpdateStudyMaterial struct {
 	Name     string `json:"name" db:"name"`
 	Link     string `json:"link" db:"link"`
 	FileName string `json:"file_name" db:"file_name"`
+	Date     string `json:"date" db:"date"`
 }
